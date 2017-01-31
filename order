@@ -1,0 +1,86 @@
+$ Classic
+##[1st column] type of molecule (type 0 won't be analyzed)
+##[2nd column] number of molecules
+##[3rd column] minimum atom ID in the molecule group
+##[4th column] maximum atom ID in the molecule group
+0  1   1      20480
+1  40  20481  24920
+
+$ CoarseGraining
+##[1st column] type of molecule
+##[2nd column] name of mapping file
+1 mapping
+
+$ Atom
+##[1st column] type (1,2,...,N)
+##[2nd or later column] mass
+##[3rd or later column] property
+type mass
+1    12.0110
+2    12.0110
+3    1.0080
+4    18.9980
+5    15.9990
+6    12.0110
+7    12.0110
+8    12.0110
+9    12.0110
+10   12.0110
+11   12.0110
+12   12.0110
+13   1.0080
+14   1.0080
+
+$ Molecule
+##[1st column] type (1,2,...,N)
+##[2nd or later column] property
+type
+1
+
+$ Bead
+##[1st column] type (1,2,...,N)
+##[2nd or later column] property
+type
+1
+2
+
+$ DumpFile
+Number_of_Files     100
+Initial             505000
+Interval            5000
+Prefix_of_FileName  dumps/atom.
+Suffix_of_FileName  .dump
+Integers            id type
+
+# $ BeadDump
+# Range -inf <= xu <= 40.0
+# Range 20.0 <= yu <= 60.0
+# List type 2
+
+# $ GyrationRadius
+# Dimension xyz (x,y,z,xy,yz,zx,xyz)
+# List mytag 1
+
+# $ Orientation
+# Direction z_max (x_min,y_min,z_min,x_max,y_max,z_max)
+# List mytag 1
+
+# $ NumberDensityDistribution
+# Direction z (x,y,z)
+# Target bead (atom,molecule,bead)
+# Number_of_Bins 130
+# Origin 0.0
+# Bin_Width 0.5
+
+# $ PropertyRequest
+# GyrationRadius
+
+# $ RadialDistributionFunction
+# Target bead (atom,molecule,bead)
+# Number_of_Bins 250
+# Bin_Width 0.1
+
+$ MeanSquareDisplacement
+Dimension x+y+z (connect by '+' operator)
+Target bead (atom,molecule,bead)
+Number_of_Samples 10
