@@ -151,7 +151,7 @@ void Ingredient::calculate_atom() {
     //
     for (std::string dim : {"x","y","z"}) {
       if (sys->periodic[dim] == "pp") {
-        double shift = floor(atom[i].pos[dim]/sys->boxlen[dim]);
+        double shift = floor((atom[i].pos[dim]-sys->boxmin[dim])/sys->boxlen[dim]);
         atom[i].wpos[dim] = atom[i].pos[dim]-shift*sys->boxlen[dim]; }
       else { atom[i].wpos[dim] = atom[i].pos[dim]; }
       atom[i].dprop["w"+dim] = atom[i].wpos[dim];
@@ -180,7 +180,7 @@ void Ingredient::calculate_molecule() {
     //
     for (std::string dim : {"x","y","z"}) {
       if (sys->periodic[dim] == "pp") {
-        double shift = floor(mol[i].pos[dim]/sys->boxlen[dim]);
+        double shift = floor((mol[i].pos[dim]-sys->boxmin[dim])/sys->boxlen[dim]);
         mol[i].wpos[dim] = mol[i].pos[dim]-shift*sys->boxlen[dim]; }
       else { mol[i].wpos[dim] = mol[i].pos[dim]; }
       mol[i].dprop[dim+"u"] = mol[i].pos[dim];
@@ -212,7 +212,7 @@ void Ingredient::calculate_bead() {
     //
     for (std::string dim : {"x","y","z"}) {
       if (sys->periodic[dim] == "pp") {
-        double shift = floor(bead[i].pos[dim]/sys->boxlen[dim]);
+        double shift = floor((bead[i].pos[dim]-sys->boxmin[dim])/sys->boxlen[dim]);
         bead[i].wpos[dim] = bead[i].pos[dim]-shift*sys->boxlen[dim]; }
       else { bead[i].wpos[dim] = bead[i].pos[dim]; }
       bead[i].dprop[dim+"u"] = bead[i].pos[dim];
