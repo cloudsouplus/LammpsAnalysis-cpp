@@ -55,8 +55,7 @@ void Anal_MeanSquareDisplacement::analysis_trajectory() {
   for (std::vector<int> ids : ids_traj) {
     if (ids.size() != ids0.size()) { error("Error(MSD): ID Size."); }
     for (int i = 0; i < ids0.size(); ++i) {
-      std::cout << ids[i] << ":" << ids0[i] << std::endl;
-      //if (ids[i] != ids0[i]) { error("Error(MSD): ID."); }
+      if (ids[i] != ids0[i]) { error("Error(MSD): ID."); }
     }
   }
   // 粒子ごとの平均
