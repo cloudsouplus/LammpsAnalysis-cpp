@@ -16,7 +16,7 @@ Owner::Owner(char *filename, Bistro *bstr) : Pointers(bstr) {
   // Order設定
   call_order();
   // 出力ディレクトリにコピー
-  copyfile(filename,bstr->outdir+"/"+filename);
+  copyfile(filename,bstr->outdir+"/"+split(filename,'/').back());
 }
 
 void Owner::read_order(char *filename) {

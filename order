@@ -3,6 +3,7 @@ $ Classic
 ##[2nd column] number of molecules
 ##[3rd column] minimum atom ID in the molecule group
 ##[4th column] maximum atom ID in the molecule group
+##ID of molecules will be applied in the blow order
 0  1   1      20480
 1  40  20481  24920
 

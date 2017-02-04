@@ -1,6 +1,6 @@
 CC      = g++
-CFLAGS  = -fopenmp -std=c++11 -O3
-LDFLAGS = -fopenmp -std=c++11 -O3
+CFLAGS  = -g -fopenmp -std=c++11 -O3
+LDFLAGS = -g -fopenmp -std=c++11 -O3
 LIBS    =
 INCLUDE = -I./include
 SRC_DIR = ./src

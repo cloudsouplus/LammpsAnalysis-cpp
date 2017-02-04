@@ -16,6 +16,7 @@ namespace Bistro_NS {
 
 class Ingredient : protected Pointers {
   int index;
+  int read_dumpheader(const std::string &);
   std::vector<int> read_dumpfile(const std::string &);
   void config_molecule(const std::vector<int> &);
   void config_bead();
@@ -37,7 +38,7 @@ public:
   std::vector<Atom *> get_atoms();        //
   std::vector<Bead *> get_beads();        //
   std::vector<Molecule *> get_mols();     //
-  std::vector<Atom *> get_allatoms();        //
+  std::vector<Atom *> get_allatoms();     //
 };
 /* ---- 解析およびプロパティ計算は以下のデータクラスにアクセスして行う ----------------- */
 // データの基本クラス

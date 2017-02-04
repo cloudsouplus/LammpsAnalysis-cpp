@@ -20,8 +20,8 @@ Ingredient::Ingredient(Bistro *bstr, int itr) : Pointers(bstr) {
   if (owner->tof_C) { sys->nummols = owner->nummols; }
   if (owner->tof_CG) { sys->numbeads = owner->numbeads; }
   // 原子データ生成・読み込み
-  if (owner->tof_C) { atom = new Atom[sys->numatoms]; }
   std::string s = std::to_string(static_cast<long long>(sys->timestep));
+  atom = new Atom[read_dumpheader(owner->prefix_dump+s+owner->suffix_dump)];
   std::vector<int> molids = read_dumpfile(owner->prefix_dump+s+owner->suffix_dump);
   // 分子・ビーズデータ生成・設定
   if (owner->tof_C) { mol = new Molecule[sys->nummols]; }
@@ -35,12 +35,10 @@ Ingredient::Ingredient(Bistro *bstr, int itr) : Pointers(bstr) {
   if (owner->tof_CG) { calculate_bead(); }
 }
 
-std::vector<int> Ingredient::read_dumpfile(const std::string &filename) {
-  std::vector<std::string> pkey;  // プロパティキー
-  std::vector<bool> int_tof;
+int Ingredient::read_dumpheader(const std::string &filename) {
   std::ifstream ifs(filename);
   std::string line;
-  for (int item = 0; item < 4; ++item) {
+  for (int item = 0; item < 3; ++item) {
     std::getline(ifs,line);
     std::vector<std::string> strs = split(line,' ');
     if (strs[0] == "ITEM:") {
@@ -51,9 +49,7 @@ std::vector<int> Ingredient::read_dumpfile(const std::string &filename) {
         std::getline(ifs,line);
         if (owner->tof_C) {
           if (sys->numatoms != std::stoi(line)) { error("Error: Number."); } }
-        else {
-          sys->numatoms = std::stoi(line);
-          atom = new Atom[sys->numatoms]; } }
+        else { sys->numatoms = std::stoi(line); } }
       else if (strs[1] == "BOX") {
         sys->periodic["x"] = strs[3];
         sys->periodic["y"] = strs[4];
@@ -63,14 +59,27 @@ std::vector<int> Ingredient::read_dumpfile(const std::string &filename) {
           sys->boxmin[i] = std::stod(split(line,' ')[0]);
           sys->boxmax[i] = std::stod(split(line,' ')[1]);
           sys->boxlen[i] = abs(sys->boxmax[i]-sys->boxmin[i]);
-        } }
-      else if (strs[1] == "ATOMS") {
-        for (auto str = strs.begin()+2; str != strs.end(); ++str) {
-          pkey.push_back(*str);
-          if (find_str(owner->dumpintegers,*str)) { int_tof.push_back(true); }
-          else { int_tof.push_back(false); }
         }
       }
+    }
+  }
+  return sys->numatoms;
+}
+
+std::vector<int> Ingredient::read_dumpfile(const std::string &filename) {
+  std::vector<std::string> pkey;  // プロパティキー
+  std::vector<bool> int_tof;
+  std::ifstream ifs(filename);
+  std::string line;
+  while (std::getline(ifs,line)) {
+    std::vector<std::string> strs = split(line,' ');
+    if (strs[0] == "ITEM:" && strs[1] == "ATOMS") {
+      for (auto str = strs.begin()+2; str != strs.end(); ++str) {
+        pkey.push_back(*str);
+        if (find_str(owner->dumpintegers,*str)) { int_tof.push_back(true); }
+        else { int_tof.push_back(false); }
+      }
+      break;
     }
   } // End of Header
   bool mol_tof = find_str(pkey,"mol");
@@ -89,6 +98,7 @@ std::vector<int> Ingredient::read_dumpfile(const std::string &filename) {
       }
     }
   }
+  if (!molids.empty()) { std::sort(molids.begin(),molids.end()); }
   return molids;
 }
 
@@ -107,7 +117,8 @@ void Ingredient::config_molecule(const std::vector<int> &molids) {
           mol[im].memberbeads.push_back(&bead[ib]);
           bead[ib].iprop["mol"] = im+1; } } } }
   else {
-    for (int im = 0; im < molids.size(); ++im) {
+    sys->nummols = molids.size();
+    for (int im = 0; im < sys->nummols; ++im) {
       mol[im].iprop["id"] = molids[im];
       for (int ia = 0; ia < sys->numatoms; ++ia){
         if (atom[ia].iprop["mol"] == molids[im]) {
