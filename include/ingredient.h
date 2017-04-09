@@ -62,7 +62,10 @@ public:
   double mass;
 };
 // 原子データ
-class Atom : public Particle {};
+class Atom : public Particle {
+public:
+  Molecule *parentmol;                          // pointer to a molecule containing the atom
+};
 // 分子データ
 class Molecule : public Particle {
 public:
@@ -74,6 +77,7 @@ class Bead : public Particle {
 public:
   std::vector<Atom *> members;                  // atoms in bead
   std::vector<double> weights;                  // weiths of atoms in bead
+  Molecule *parentmol;                          // pointer to a molecule containing the atom
 };
 
 }

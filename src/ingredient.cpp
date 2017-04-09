@@ -111,11 +111,16 @@ void Ingredient::config_molecule(const std::vector<int> &molids) {
       for (int ia = config[2]-1; ia < config[1]+config[2]-1; ++ia){
         mol[im].memberatoms.push_back(&atom[ia]);
         atom[ia].iprop["mol"] = im+1;
+        atom[ia].parentmol = &mol[im];
       }
       if (owner->tof_CG) {
         for (int ib = config[4]-1; ib < config[3]+config[4]-1; ++ib){
           mol[im].memberbeads.push_back(&bead[ib]);
-          bead[ib].iprop["mol"] = im+1; } } } }
+          bead[ib].iprop["mol"] = im+1;
+          bead[ib].parentmol = &mol[im];
+        }
+      }
+    } }
   else {
     sys->nummols = molids.size();
     for (int im = 0; im < sys->nummols; ++im) {
@@ -123,6 +128,7 @@ void Ingredient::config_molecule(const std::vector<int> &molids) {
       for (int ia = 0; ia < sys->numatoms; ++ia){
         if (atom[ia].iprop["mol"] == molids[im]) {
           mol[im].memberatoms.push_back(&atom[ia]);
+          atom[ia].parentmol = &mol[im];
         }
       }
     }

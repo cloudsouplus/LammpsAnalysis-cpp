@@ -15,7 +15,8 @@ namespace Bistro_NS {
 class Chef : protected Pointers {
   std::vector<std::string> property_requests;
   // Your Analysis Classes
-//  class Anal_YourAnalysis *yourA;
+  //  class Anal_YourAnalysis *yourA;
+  std::vector<class Anal_AddTag *> addT;
   class Anal_PropertyRequest *propertyR;
   class Anal_BeadDump *beadD;
   class Anal_GyrationRadius *gyrationR;
@@ -23,6 +24,7 @@ class Chef : protected Pointers {
   class Anal_NumberDensityDistribution *numberDD;
   class Anal_RadialDistributionFunction *radialDF;
   class Anal_MeanSquareDisplacement *meanSD;
+  class Anal_Count *count;
   //
   template <class T> void add_property_request(T *ana) {
     for (std::string prop : ana->get_property_request()) {
