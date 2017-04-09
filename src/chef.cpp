@@ -17,6 +17,7 @@ Purpose:        Analyze
 #include "anal_RadialDistributionFunction.h"
 #include "anal_MeanSquareDisplacement.h"
 #include "anal_Count.h"
+#include "anal_WriteID.h"
 // include header of your analysis
 using namespace Bistro_NS;
 
@@ -67,6 +68,10 @@ Chef::Chef(Bistro *bstr) : Pointers(bstr) {
     count = new Anal_Count(bstr,owner->get_order("Count"));
     add_property_request(count);
   }
+  if (find_str(owner->get_names_order(),"WriteID")) {
+    writeID = new Anal_WriteID(bstr,owner->get_order("WriteID"));
+    add_property_request(writeID);
+  }
 }
 
 void Chef::cook(Ingredient *ingr) {
@@ -96,6 +101,9 @@ void Chef::cook(Ingredient *ingr) {
   }
   if (find_str(owner->get_names_order(),"Count")) {
     count->analysis_instant(ingr);
+  }
+  if (find_str(owner->get_names_order(),"WriteID")) {
+    writeID->analysis_instant(ingr);
   }
 }
 

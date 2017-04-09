@@ -1,4 +1,4 @@
-CC      = g++
+CC      = g++-6
 CFLAGS  = -g -fopenmp -std=c++11 -O3
 LDFLAGS = -g -fopenmp -std=c++11 -O3
 LIBS    =

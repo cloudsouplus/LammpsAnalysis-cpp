@@ -25,6 +25,7 @@ class Chef : protected Pointers {
   class Anal_RadialDistributionFunction *radialDF;
   class Anal_MeanSquareDisplacement *meanSD;
   class Anal_Count *count;
+  class Anal_WriteID *writeID;
   //
   template <class T> void add_property_request(T *ana) {
     for (std::string prop : ana->get_property_request()) {

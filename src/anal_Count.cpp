@@ -14,6 +14,8 @@ Anal_Count::Anal_Count(Bistro *bstr,
   }
   // トラジェクトリを入力ファイル数まで拡張
   Count_traj.resize(bstr->numitrs);
+  // 条件を記録
+  conditions = order;
 }
 
 void Anal_Count::analysis_instant(Ingredient *ingr) {
@@ -35,6 +37,8 @@ void Anal_Count::analysis_trajectory() {
   // 出力ファイルの作成
   std::ofstream ofs(bstr->outdir+"/Count.dat");
   // 出力
+  for (std::string line : conditions) { ofs << "# "+line << std::endl; }
+  ofs << "# ---" << std::endl;
   ofs << "# time index | # of Count" << std::endl;
   for (int i = 0; i < Count_traj.size(); ++i) {
     ofs << i << " " << Count_traj[i] << std::endl;
